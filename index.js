@@ -12,3 +12,16 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+const express = require("express");
+const server = express();
+const PORT = 8080;
+
+const actionsAPI = require("./api/actions/actions-router");
+// const projectsAPI = require("./api/projects/projects-router");
+
+server.use("/api/actions", actionsAPI);
+// server.use("/api/projects", projectsAPI);
+
+server.listen(PORT, () =>
+  console.log(`Server is listening on http://localhost:${PORT}`)
+);
