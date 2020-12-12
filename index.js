@@ -16,6 +16,7 @@ const express = require("express");
 const server = express();
 const PORT = 8080;
 
+server.use(express.json());
 const actionsAPI = require("./api/actions/actions-router");
 // const projectsAPI = require("./api/projects/projects-router");
 
