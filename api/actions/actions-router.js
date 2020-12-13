@@ -1,6 +1,7 @@
 // Write your "actions" router here!
 const router = require("express").Router();
 const { get, insert, update, remove } = require("./actions-model");
+const checkActionsId = require("../../middleware/actions");
 
 // TODO: Add middleware to the action routes
 
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
  * @description
  * Sends an action with the given id as the body of the response.
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", checkActionsId, async (req, res) => {
   const { id } = req.params;
   return res.status(200).json(await get(id));
 });
@@ -31,16 +32,14 @@ router.get("/:id", async (req, res) => {
  * @description
  * Sends the newly created action as the body of the response.
  */
-router.post("/", async (req, res) => {
+router.post("/", checkActionsId, async (req, res) => {
   /**
    * Request Body Required Fields
    * =============
    * project_id
    * description
-   * notes
    */
-
-  return res.status(201).json(await insert(req.body));
+  return res.status(201).json(await insert(req.createdPost));
 });
 
 /**
@@ -49,7 +48,7 @@ router.post("/", async (req, res) => {
  * @description
  * Sends the updated action as the body of the response.
  */
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkActionsId, async (req, res) => {
   /**
    * Request Body Required Fields
    * =============
@@ -68,7 +67,7 @@ router.put("/:id", async (req, res) => {
  * @description
  * sends no response body
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkActionsId, async (req, res) => {
   await remove(req.params.id);
   res.status(202).json({ messge: "Action deleted" });
 });

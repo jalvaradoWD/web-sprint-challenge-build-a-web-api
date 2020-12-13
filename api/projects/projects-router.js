@@ -1,5 +1,6 @@
 // Write your "projects" router here!
 const router = require("express").Router();
+const checkProjectMiddleware = require("../../middleware/projects");
 
 // TODO: Add middleware to the projects routes
 
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
  * @description
  * Sends a project with the given id as the body of the response.
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", checkProjectMiddleware, async (req, res) => {
   return res.status(200).json(await get(req.params.id));
 });
 
@@ -37,18 +38,17 @@ router.get("/:id", async (req, res) => {
  * @description
  * Sends the newly created project as the body of the response.
  */
-router.post("/", async (req, res) => {
+router.post("/", checkProjectMiddleware, async (req, res) => {
   /**
    * Expected Fields to be given.
    * name
    * description
    * completed
    */
-  const createdPost = {
-    ...req.body,
-  };
-  await insert(req.body);
-  return res.status(201).json(createdPost);
+
+  const { createdProject } = req;
+  await insert(createdProject);
+  return res.status(201).json(createdProject);
 });
 
 /**
@@ -57,7 +57,7 @@ router.post("/", async (req, res) => {
  * @description
  * Sends the updated project as the body of the response.
  */
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkProjectMiddleware, async (req, res) => {
   /**
    * Expected Fields to be given.
    * name
@@ -74,7 +74,7 @@ router.put("/:id", async (req, res) => {
  * @description
  * Sends no response body.
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkProjectMiddleware, async (req, res) => {
   await remove(req.params.id);
   return res.json({ message: "Project deleted" });
 });
