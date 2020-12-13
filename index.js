@@ -18,10 +18,10 @@ const PORT = 8080;
 
 server.use(express.json());
 const actionsAPI = require("./api/actions/actions-router");
-// const projectsAPI = require("./api/projects/projects-router");
+const projectsAPI = require("./api/projects/projects-router");
 
 server.use("/api/actions", actionsAPI);
-// server.use("/api/projects", projectsAPI);
+server.use("/api/projects", projectsAPI);
 
 server.listen(PORT, () =>
   console.log(`Server is listening on http://localhost:${PORT}`)

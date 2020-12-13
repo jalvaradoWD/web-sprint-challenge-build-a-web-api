@@ -2,6 +2,8 @@
 const router = require("express").Router();
 const { get, insert, update, remove } = require("./actions-model");
 
+// TODO: Add middleware to the action routes
+
 /**
  * @method GET
  * @route /api/actions
